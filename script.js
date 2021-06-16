@@ -4,3 +4,5 @@
     //checkout page sends money directly to client instead of to vozzi account
 
 // after checkout relocate back to index and add pop-up thanking the customer for their donation to the client
+
+//main functions
