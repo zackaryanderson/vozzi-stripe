@@ -1,0 +1,23 @@
+{
+  "name": "vozzi-stripe",
+  "version": "1.0.0",
+  "description": "Stripe Donation Page for Vozzi",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zackaryanderson/vozzi-stripe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zackaryanderson/vozzi-stripe/issues"
+  },
+  "homepage": "https://github.com/zackaryanderson/vozzi-stripe#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "stripe": "^8.156.0"
+  }
+}
