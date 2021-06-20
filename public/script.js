@@ -47,6 +47,15 @@ checkoutButton.addEventListener("click", function () {
     //fetch the checkout session from server.js
     fetch("/create-checkout-session", {
         method: "POST",
+        body: JSON.stringify({
+            'donationInfo': {
+                "Amt" : donationInfo.Amt,
+                "Freq" : donationInfo.Freq
+            }
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
     })
         .then(function (response) {
             //log the fetch response and move on to checkout

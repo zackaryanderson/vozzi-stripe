@@ -15,6 +15,9 @@ const YOUR_DOMAIN = 'http://localhost:3001';
 
 //post routes
 app.post('/create-checkout-session', async (req, res) => {
+
+  console.log(req.body)
+  
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: [
@@ -25,7 +28,7 @@ app.post('/create-checkout-session', async (req, res) => {
             name: 'Stubborn Attachments',
             images: ['https://i.imgur.com/EHyR2nP.png'],
           },
-          unit_amount: 2000,
+          unit_amount: req.body.donationInfo.Amt,
         },
         quantity: 1,
       },
