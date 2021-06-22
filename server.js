@@ -16,46 +16,71 @@ const YOUR_DOMAIN = 'http://localhost:3001';
 //post routes
 app.post('/create-checkout-session', async (req, res) => {
 
-  console.log(req.body)
-
-  let mode = '';
+  console.log(req.body);
 
   if (req.body.donationInfo.Freq === "reoccuring") {
-    mode = 'subscription';
+    
+    //create session for reoccuring payment
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+  
+              // ------> insert client name here <----------
+              name: 'Alabama Athletics Donation',
+  
+              // -----> insert client image here <-----------
+              images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Alabama_Athletics_logo.svg/1067px-Alabama_Athletics_logo.svg.png'],
+            },
+            unit_amount: req.body.donationInfo.Amt,
+            recurring: {
+              interval: 'month'
+            }
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      customer_email: req.body.donationInfo.Email,
+      success_url: `${YOUR_DOMAIN}/success.html`,
+      cancel_url: `${YOUR_DOMAIN}/`,
+    });
+  
+    res.json({ id: session.id });
   } else {
-    mode = 'payment';
+
+    //create session for non one-time payments
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+  
+              // ------> insert client name here <----------
+              name: 'Alabama Athletics Donation',
+  
+              // -----> insert client image here <-----------
+              images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Alabama_Athletics_logo.svg/1067px-Alabama_Athletics_logo.svg.png'],
+            },
+            unit_amount: req.body.donationInfo.Amt
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      customer_email: req.body.donationInfo.Email,
+      success_url: `${YOUR_DOMAIN}/success.html`,
+      cancel_url: `${YOUR_DOMAIN}/`,
+    });
+  
+    res.json({ id: session.id });
   }
     
-
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-
-            // ------> insert client name here <----------
-            name: 'Alabama Athletics Donation',
-
-            // -----> insert client image here <-----------
-            images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Alabama_Athletics_logo.svg/1067px-Alabama_Athletics_logo.svg.png'],
-          },
-          unit_amount: req.body.donationInfo.Amt,
-          // recurring: {
-          //   interval: 'month'
-          // }
-        },
-        quantity: 1,
-      },
-    ],
-    mode: mode,
-    customer_email: req.body.donationInfo.Email,
-    success_url: `${YOUR_DOMAIN}/success.html`,
-    cancel_url: `${YOUR_DOMAIN}/`,
-  });
-
-  res.json({ id: session.id });
 });
 
 //get routes
