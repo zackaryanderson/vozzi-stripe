@@ -5,13 +5,17 @@ var stripe = Stripe('pk_test_51J4X5IHZla0DSOuwEeIrvCEkMIQu5keS2N38lqm9aNPeFhoaMO
 //establish connection to important buttons
 const checkoutButton = document.getElementById("checkout-btn");
 
-let donation25 = document.getElementById("donation-2500");
-let donation50 = document.getElementById("donation-5000");
-let donation100 = document.getElementById("donation-10000");
-let donation250 = document.getElementById("donation-25000");
+// donation amount buttons
+const donation25 = document.getElementById("donation-2500");
+const donation50 = document.getElementById("donation-5000");
+const donation100 = document.getElementById("donation-10000");
+const donation250 = document.getElementById("donation-25000");
 
+// donation frequency buttons
 const donationOneTime = document.getElementById("donation-onetime");
 const donationReoccuring = document.getElementById("donation-reoccuring");
+
+const emailInput = document.getElementById("email");
 
 //establish important variables
 let donationInfo = [];
@@ -21,7 +25,6 @@ donationAmtClickHandler = (event) => {
 
     //catch the value of the button clicked and set it equal to new variable
     let donationAmt = event.target.id.split('-')[1];
-
     //add donation amount to donation info object
     donationInfo.Amt = donationAmt;
 
@@ -32,7 +35,6 @@ donationFreqClickHandler = (event) => {
     
     //catch value of the button clicked and set it equal to a new var
     let donationFreq = event.target.id.split('-')[1];
-
     //add donation frequency to donation info object
     donationInfo.Freq = donationFreq;
 
@@ -42,7 +44,8 @@ donationFreqClickHandler = (event) => {
 //checkout button handler
 checkoutButton.addEventListener("click", function () {
 
-    console.log(donationInfo);
+    //get user email from input form
+    let Email = emailInput.value
     
     //fetch the checkout session from server.js
     fetch("/create-checkout-session", {
@@ -50,7 +53,8 @@ checkoutButton.addEventListener("click", function () {
         body: JSON.stringify({
             'donationInfo': {
                 "Amt" : donationInfo.Amt,
-                "Freq" : donationInfo.Freq
+                "Freq" : donationInfo.Freq,
+                "Email" : Email
             }
         }),
         headers: {
@@ -75,6 +79,7 @@ checkoutButton.addEventListener("click", function () {
         .catch(function (error) {
             console.error("Error:", error);
         });
+
  });
 
  //establish other event listeners

@@ -17,7 +17,16 @@ const YOUR_DOMAIN = 'http://localhost:3001';
 app.post('/create-checkout-session', async (req, res) => {
 
   console.log(req.body)
-  
+
+  let mode = '';
+
+  if (req.body.donationInfo.Freq === "reoccuring") {
+    mode = 'subscription';
+  } else {
+    mode = 'payment';
+  }
+    
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: [
@@ -25,15 +34,23 @@ app.post('/create-checkout-session', async (req, res) => {
         price_data: {
           currency: 'usd',
           product_data: {
-            name: 'Stubborn Attachments',
-            images: ['https://i.imgur.com/EHyR2nP.png'],
+
+            // ------> insert client name here <----------
+            name: 'Alabama Athletics Donation',
+
+            // -----> insert client image here <-----------
+            images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Alabama_Athletics_logo.svg/1067px-Alabama_Athletics_logo.svg.png'],
           },
           unit_amount: req.body.donationInfo.Amt,
+          // recurring: {
+          //   interval: 'month'
+          // }
         },
         quantity: 1,
       },
     ],
-    mode: 'payment',
+    mode: mode,
+    customer_email: req.body.donationInfo.Email,
     success_url: `${YOUR_DOMAIN}/success.html`,
     cancel_url: `${YOUR_DOMAIN}/`,
   });
