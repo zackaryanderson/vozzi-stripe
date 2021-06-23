@@ -9,7 +9,7 @@ const routes = require('./routes');
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//off load api routes to clean up file
+//off-load api routes to clean up file
 app.use(routes);
 
 //send static html
