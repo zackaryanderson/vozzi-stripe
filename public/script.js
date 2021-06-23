@@ -49,7 +49,7 @@ checkoutButton.addEventListener("click", function () {
     let Email = emailInput.value
     
     //fetch the checkout session from server.js
-    fetch("/create-checkout-session", {
+    fetch("/checkout", {
         method: "POST",
         body: JSON.stringify({
             'donationInfo': {
