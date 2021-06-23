@@ -1,5 +1,6 @@
 
 //establish stripe connection with API key
+// ----------> insert Stripe API Public Key Here <-------------
 var stripe = Stripe('pk_test_51J4X5IHZla0DSOuwEeIrvCEkMIQu5keS2N38lqm9aNPeFhoaMOT5x9JFqIOa6eAQ3t7OP0JDG455C06eVtdfsVv900yg9fv1sa');
 
 //establish connection to important buttons

@@ -1,6 +1,8 @@
 
 //import stripe and express
 require('dotenv').config()
+
+// ----------> insert Stripe API Secret Key in the .env file <-------------
 const stripe = require('stripe')(process.env.SEC_KEY);
 const express = require('express');
 const app = express();
