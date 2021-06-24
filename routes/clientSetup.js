@@ -7,7 +7,25 @@ const stripe = require('stripe')(process.env.SEC_KEY);
 const YOUR_DOMAIN = 'http://localhost:3001';
 
 //create account for client with pulled information
+router.post('/', async (req, res) => {
 
+    const account = await stripe.accounts.create({
+        type: 'standard',
+    });
+
+    res.json(account);
+
+    const accountLinks = await stripe.accountLinks.create({
+        account: account.id,
+        refresh_url: 'https://localhost:3001/connect.html',
+        return_url: 'https://localhost:3001/connect.html',
+        type: 'account_onboarding',
+    });
+
+    console.log(accountLinks);
+    location.replace(accountLinks.url);
+
+});
 //create account link information
 
 //redirect to account link URL to finish account setup
