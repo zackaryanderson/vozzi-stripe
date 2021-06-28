@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
         type: 'standard',
     });
 
-    res.json(account);
+    //res.json(account);
 
     const accountLinks = await stripe.accountLinks.create({
         account: account.id,
@@ -22,8 +22,9 @@ router.post('/', async (req, res) => {
         type: 'account_onboarding',
     });
 
-    console.log(accountLinks);
-    location.replace(accountLinks.url);
+    res.json(accountLinks);
+    //console.log(accountLinks.url);
+    //window.location.replace(accountLinks.url);
 
 });
 //create account link information

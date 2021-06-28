@@ -40,6 +40,9 @@ router.post('/', async (req, res) => {
             customer_email: req.body.donationInfo.Email,
             success_url: `${YOUR_DOMAIN}/success.html`,
             cancel_url: `${YOUR_DOMAIN}/`,
+
+            // enter client account number below
+            stripeAccount: 'acct_1J78sEQiW4qEHLPG'
         });
 
         res.json({ id: session.id });

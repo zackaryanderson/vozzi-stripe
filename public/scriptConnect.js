@@ -12,15 +12,15 @@ const stripeConnect = document.getElementById("stripe-connect");
 //update checkout sessions account payment id so that the client gets payments
 const stripeConnectClickHandler = (event) => {
 
-    console.log(event.target);
-
     fetch("/client-setup", {
         method: "POST",
     })
-        .then(function (response) {
-            //log the fetch response and move on to checkout
-            console.log(response.json);
-            return response.json();
+        .then(response => response.json())
+        .then(data => {
+
+            window.location.replace(data.url);
+            return data;
+            
         })
         .catch(function (error) {
             console.error("Error:", error);
