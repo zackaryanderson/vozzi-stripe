@@ -36,13 +36,17 @@ router.post('/', async (req, res) => {
                     quantity: 1,
                 },
             ],
+            payment_intent_data: {
+                application_fee_amount: 0,
+                transfer_data: {
+                    //enter client account number here
+                    destination: 'acct_1J79CWFo7BgMIoMv',
+                }
+            },
             mode: 'subscription',
             customer_email: req.body.donationInfo.Email,
             success_url: `${YOUR_DOMAIN}/success.html`,
             cancel_url: `${YOUR_DOMAIN}/`,
-
-            // enter client account number below
-            stripeAccount: 'acct_1J78sEQiW4qEHLPG'
         });
 
         res.json({ id: session.id });
@@ -68,10 +72,18 @@ router.post('/', async (req, res) => {
                     quantity: 1,
                 },
             ],
+            payment_intent_data: {
+                application_fee_amount: 0,
+                transfer_data: {
+                    //enter client account number here
+                    destination: 'acct_1J79CWFo7BgMIoMv',
+                }
+            },
             mode: 'payment',
             customer_email: req.body.donationInfo.Email,
             success_url: `${YOUR_DOMAIN}/success.html`,
             cancel_url: `${YOUR_DOMAIN}/`,
+
         });
 
         res.json({ id: session.id });
