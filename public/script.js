@@ -11,6 +11,7 @@ const donation25 = document.getElementById("donation-2500");
 const donation50 = document.getElementById("donation-5000");
 const donation100 = document.getElementById("donation-10000");
 const donation250 = document.getElementById("donation-25000");
+const donationCustom = document.getElementById("custom-donation");
 
 // donation frequency buttons
 const donationOneTime = document.getElementById("donation-onetime");
@@ -33,7 +34,7 @@ donationAmtClickHandler = (event) => {
 
 //function to run when frequency button is clicked
 donationFreqClickHandler = (event) => {
-    
+
     //catch value of the button clicked and set it equal to a new var
     let donationFreq = event.target.id.split('-')[1];
     //add donation frequency to donation info object
@@ -47,15 +48,20 @@ checkoutButton.addEventListener("click", function () {
 
     //get user email from input form
     let Email = emailInput.value
-    
+
+    //check to see if no value has been selected and set the donation amount equal to the form value
+    if (!donationInfo.Amt) {
+        donationInfo.Amt = donationCustom.value * 100;
+    }
+
     //fetch the checkout session from server.js
     fetch("/checkout", {
         method: "POST",
         body: JSON.stringify({
             'donationInfo': {
-                "Amt" : donationInfo.Amt,
-                "Freq" : donationInfo.Freq,
-                "Email" : Email
+                "Amt": donationInfo.Amt,
+                "Freq": donationInfo.Freq,
+                "Email": Email
             }
         }),
         headers: {
@@ -78,17 +84,26 @@ checkoutButton.addEventListener("click", function () {
             }
         })
         .catch(function (error) {
+            
+            const badInfo = document.createElement("div");
+            badInfo.classList.add("alert");
+            badInfo.classList.add("alert-danger");
+            badInfo.setAttribute("style", "transition: width 0.5s");
+            badInfo.textContent = "Please Complete the Form Above";
+            document.querySelector(".card-body").appendChild(badInfo);
+
             console.error("Error:", error);
+
         });
 
- });
+});
 
- //establish other event listeners
- donation25.addEventListener("click", donationAmtClickHandler);
- donation50.addEventListener("click", donationAmtClickHandler);
- donation100.addEventListener("click", donationAmtClickHandler);
- donation250.addEventListener("click", donationAmtClickHandler);
+//establish other event listeners
+donation25.addEventListener("click", donationAmtClickHandler);
+donation50.addEventListener("click", donationAmtClickHandler);
+donation100.addEventListener("click", donationAmtClickHandler);
+donation250.addEventListener("click", donationAmtClickHandler);
 
- donationOneTime.addEventListener("click", donationFreqClickHandler);
- donationReoccuring.addEventListener("click", donationFreqClickHandler);
+donationOneTime.addEventListener("click", donationFreqClickHandler);
+donationReoccuring.addEventListener("click", donationFreqClickHandler);
 
