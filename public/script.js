@@ -25,6 +25,32 @@ let donationInfo = [];
 //function to run when amount button is clicked
 donationAmtClickHandler = (event) => {
 
+    if (event.target.id === "donation-2500") {
+        donation25.classList.add("active");
+        donation50.classList.remove("active");
+        donation100.classList.remove("active");
+        donation250.classList.remove("active");
+    }
+    else if (event.target.id === "donation-5000") {
+        donation25.classList.remove("active");
+        donation50.classList.add("active");
+        donation100.classList.remove("active");
+        donation250.classList.remove("active");
+    }
+    else if (event.target.id === "donation-10000") {
+        donation25.classList.remove("active");
+        donation50.classList.remove("active");
+        donation100.classList.add("active");
+        donation250.classList.remove("active");
+    }
+    else if (event.target.id === "donation-25000") {
+        donation25.classList.remove("active");
+        donation50.classList.remove("active");
+        donation100.classList.remove("active");
+        donation250.classList.add("active");
+    }
+
+
     //catch the value of the button clicked and set it equal to new variable
     let donationAmt = event.target.id.split('-')[1];
     //add donation amount to donation info object
@@ -35,10 +61,31 @@ donationAmtClickHandler = (event) => {
 //function to run when frequency button is clicked
 donationFreqClickHandler = (event) => {
 
+    event.target.classList.add("active");
+
+    if (event.target.id === "donation-onetime") {
+        donationOneTime.classList.add("active");
+        donationReoccuring.classList.remove("active");
+    } else {
+        donationOneTime.classList.remove("active");
+        donationReoccuring.classList.add("active");
+    }
+
     //catch value of the button clicked and set it equal to a new var
     let donationFreq = event.target.id.split('-')[1];
     //add donation frequency to donation info object
     donationInfo.Freq = donationFreq;
+
+}
+
+donationCustomHandler = () => {
+
+    donation25.classList.remove("active");
+    donation50.classList.remove("active");
+    donation100.classList.remove("active");
+    donation250.classList.remove("active");
+
+    donationInfo.Amt = '';
 
 }
 
@@ -50,7 +97,7 @@ checkoutButton.addEventListener("click", function () {
     let Email = emailInput.value
 
     //check to see if no value has been selected and set the donation amount equal to the form value
-    if (!donationInfo.Amt) {
+    if (!donationInfo.Amt || donationInfo.Amt === '') {
         donationInfo.Amt = donationCustom.value * 100;
     }
 
@@ -84,7 +131,7 @@ checkoutButton.addEventListener("click", function () {
             }
         })
         .catch(function (error) {
-            
+
             const badInfo = document.createElement("div");
             badInfo.classList.add("alert");
             badInfo.classList.add("alert-danger");
@@ -103,6 +150,7 @@ donation25.addEventListener("click", donationAmtClickHandler);
 donation50.addEventListener("click", donationAmtClickHandler);
 donation100.addEventListener("click", donationAmtClickHandler);
 donation250.addEventListener("click", donationAmtClickHandler);
+donationCustom.addEventListener("click", donationCustomHandler);
 
 donationOneTime.addEventListener("click", donationFreqClickHandler);
 donationReoccuring.addEventListener("click", donationFreqClickHandler);
