@@ -17,8 +17,4 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-app.get('/connect', function(req, res) {
-  res.sendFile('./public/connect.html', {root: __dirname});
-});
-
 app.listen(3001, () => console.log('Running on port 3001'));
